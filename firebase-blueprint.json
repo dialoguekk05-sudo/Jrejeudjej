@@ -1,0 +1,79 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile, assistant preferences, and persistent conversation memory summary for HAYAT AI.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Firebase Auth UID of the profile owner." },
+        "displayName": { "type": "string", "description": "Display name shown in greetings and user profile." },
+        "preferredLanguage": { "type": "string", "enum": ["en", "hi", "hinglish"], "description": "Preferred conversation language." },
+        "mood": { "type": "string", "enum": ["Focused", "Chill", "Study", "Energized"], "description": "Current user mood on dashboard." },
+        "voiceEnabled": { "type": "boolean", "description": "Whether HAYAT speaks replies via Text-to-Speech." },
+        "ttsSpeechRate": { "type": "number", "description": "Text-to-Speech playback speed multiplier (0.5 to 2.0)." },
+        "backgroundAssistantEnabled": { "type": "boolean", "description": "Whether the background foreground assistant service is enabled." },
+        "cityName": { "type": "string", "description": "City name used for real-time weather dashboard." },
+        "memorySummary": { "type": "string", "description": "Concise user preferences and context remembered across sessions." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp (FieldValue.serverTimestamp()) when profile was created." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp (FieldValue.serverTimestamp()) when profile was last updated." }
+      },
+      "required": [
+        "userId",
+        "displayName",
+        "preferredLanguage",
+        "mood",
+        "voiceEnabled",
+        "ttsSpeechRate",
+        "backgroundAssistantEnabled",
+        "cityName",
+        "memorySummary",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "A single message turn in the user's persistent HAYAT AI conversation memory.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Firebase Auth UID of the message owner." },
+        "role": { "type": "string", "enum": ["user", "model"], "description": "Message author role." },
+        "text": { "type": "string", "description": "Message text content." },
+        "language": { "type": "string", "enum": ["en", "hi"], "description": "Language of the message." },
+        "actionTag": { "type": "string", "description": "Optional phone action or mode tag executed with this turn." },
+        "hasImage": { "type": "boolean", "description": "Whether this turn included a photo attachment." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp (FieldValue.serverTimestamp()) when message was saved." }
+      },
+      "required": ["userId", "role", "text", "language", "hasImage", "createdAt"]
+    },
+    "AssistantReminder": {
+      "title": "AssistantReminder",
+      "description": "User reminder, alarm note, or study task managed by HAYAT AI.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Firebase Auth UID of the reminder owner." },
+        "title": { "type": "string", "description": "Reminder title or study task." },
+        "timeLabel": { "type": "string", "description": "Human-readable time or schedule label." },
+        "category": { "type": "string", "enum": ["Alarm", "Reminder", "Study", "Music"], "description": "Reminder category." },
+        "completed": { "type": "boolean", "description": "Completion state." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp (FieldValue.serverTimestamp()) when created." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp (FieldValue.serverTimestamp()) when updated." }
+      },
+      "required": ["userId", "title", "timeLabel", "category", "completed", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private user profile, settings, and assistant memory."
+    },
+    "/users/{userId}/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/ChatMessage" },
+      "description": "User-scoped conversation history and memory turns."
+    },
+    "/users/{userId}/reminders/{reminderId}": {
+      "schema": { "$ref": "#/entities/AssistantReminder" },
+      "description": "User-scoped reminders, alarms, and study items."
+    }
+  }
+}

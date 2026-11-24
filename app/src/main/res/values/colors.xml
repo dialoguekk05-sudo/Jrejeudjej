@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="obsidian_bg">#FF070913</color>
+    <color name="midnight_surface">#FF101526</color>
+    <color name="cyber_cyan">#FF00E5FF</color>
+    <color name="aurora_violet">#FF9D4EDD</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

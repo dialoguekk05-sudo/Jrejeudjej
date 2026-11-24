@@ -1,0 +1,6 @@
+{
+  "name": "HAYAT AI",
+  "description": "Advanced dark futuristic Android personal AI assistant with voice conversation, Hindi & English support, multimodal vision, background service, and phone actions powered by Gemini.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
